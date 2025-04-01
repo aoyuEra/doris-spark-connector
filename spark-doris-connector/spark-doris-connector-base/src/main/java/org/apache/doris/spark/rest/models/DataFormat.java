@@ -15,40 +15,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package org.apache.doris.spark.container.instance;
+package org.apache.doris.spark.rest.models;
 
-import org.apache.doris.spark.exception.DorisRuntimeException;
-
-import java.sql.Connection;
-
-public interface ContainerService {
-    void startContainer();
-
-    default void restartContainer() {
-        throw new DorisRuntimeException("Only doris docker container can implemented.");
-    };
-
-    boolean isRunning();
-
-    Connection getQueryConnection();
-
-    Connection getQueryConnection(String database);
-
-    String getJdbcUrl();
-
-    String getInstanceHost();
-
-    Integer getMappedPort(int originalPort);
-
-    String getUsername();
-
-    String getPassword();
-
-    String getFenodes();
-
-    String getBenodes();
-
-    void close();
-
-    int getQueryPort();
+public enum DataFormat {
+    CSV,
+    JSON,
+    ARROW
 }
