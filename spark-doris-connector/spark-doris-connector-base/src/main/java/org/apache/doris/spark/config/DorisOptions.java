@@ -17,6 +17,10 @@
 
 package org.apache.doris.spark.config;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 public class DorisOptions {
 
     public static final ConfigOption<String> DORIS_FENODES = ConfigOptions.name("doris.fenodes").stringType().withoutDefaultValue().withDescription("");
@@ -65,13 +69,18 @@ public class DorisOptions {
 
     public static final ConfigOption<String> DORIS_WRITE_FIELDS = ConfigOptions.name("doris.write.fields").stringType().withoutDefaultValue().withDescription("");
 
-    public static final ConfigOption<Integer> DORIS_SINK_BATCH_SIZE = ConfigOptions.name("doris.sink.batch.size").intType().defaultValue(100000).withDescription("");
+    public static final ConfigOption<Integer> DORIS_SINK_BATCH_SIZE = ConfigOptions.name("doris.sink.batch.size").intType().defaultValue(500000).withDescription("");
 
     public static final ConfigOption<Integer> DORIS_SINK_MAX_RETRIES = ConfigOptions.name("doris.sink.max-retries").intType().defaultValue(0).withDescription("");
+    public static final ConfigOption<Integer> DORIS_SINK_RETRY_INTERVAL_MS = ConfigOptions.name("doris.sink.retry.interval.ms").intType().defaultValue(10000).withDescription("The interval at which the Spark connector tries to load the batch of data again after load fails.");
 
     public static final ConfigOption<String> DORIS_MAX_FILTER_RATIO = ConfigOptions.name("doris.max.filter.ratio").stringType().withoutDefaultValue().withDescription("");
 
     public static final String STREAM_LOAD_PROP_PREFIX = "doris.sink.properties.";
+    public static final String PARTIAL_COLUMNS = "partial_columns";
+    public static final String GROUP_COMMIT = "group_commit";
+    public static final Set<String> VALID_GROUP_MODE =
+            new HashSet<>(Arrays.asList("sync_mode", "async_mode", "off_mode"));
 
     public static final ConfigOption<Integer> DORIS_SINK_TASK_PARTITION_SIZE = ConfigOptions.name("doris.sink.task.partition.size").intType().withoutDefaultValue().withDescription("");
 
@@ -117,6 +126,8 @@ public class DorisOptions {
 
     public static final ConfigOption<String> READ_MODE = ConfigOptions.name("doris.read.mode").stringType().defaultValue("thrift").withDescription("");
 
+    public static final ConfigOption<String> DORIS_READ_FLIGHT_SQL_PREFIX = ConfigOptions.name("doris.read.arrow-flight-sql.prefix").stringType().defaultValue("ApplicationName=Spark ArrowFlightSQL Query").withDescription("");
+
     public static final ConfigOption<Integer> DORIS_READ_FLIGHT_SQL_PORT = ConfigOptions.name("doris.read.arrow-flight-sql.port").intType().withoutDefaultValue().withDescription("");
 
     public static final ConfigOption<String> DORIS_SINK_LABEL_PREFIX = ConfigOptions.name("doris.sink.label.prefix").stringType().defaultValue("spark-doris").withDescription("");
@@ -128,6 +139,8 @@ public class DorisOptions {
     public static final ConfigOption<Boolean> DORIS_READ_BITMAP_TO_STRING = ConfigOptions.name("doris.read.bitmap-to-string").booleanType().defaultValue(false).withDescription("");
 
     public static final ConfigOption<Boolean> DORIS_READ_BITMAP_TO_BASE64 = ConfigOptions.name("doris.read.bitmap-to-base64").booleanType().defaultValue(false).withDescription("");
+
+    public static final ConfigOption<Integer> DORIS_SINK_NET_BUFFER_SIZE = ConfigOptions.name("doris.sink.net.buffer.size").intType().defaultValue(1024 * 1024).withDescription("");
 
 
 }
